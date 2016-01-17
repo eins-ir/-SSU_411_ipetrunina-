@@ -9,77 +9,71 @@ import java.util.*;
 
 public class Calc {
     public static void main(String[] args) throws Exception {
-        BufferedReader d = new BufferedReader(new InputStreamReader(System.in));
-        String sIn;
-
-        try {
-            System.out.println("Поддерживаются сложение (+), вычитание (-), умножение (*), деление (/), возведение в степень (^), а также скобки () ");
-            System.out.println("Введите выражение для расчета: ");
-            sIn = d.readLine();
-            sIn = opn(sIn);
-            System.out.println(calculate(sIn));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+        String exprInp;
+        System.out.println("Поддерживаются сложение (+), вычитание (-), умножение (*), деление (/), возведение в степень (^), а также скобки () ");
+        System.out.println("Введите выражение, которое нужно вычислить: ");
+        exprInp = input.readLine();
+        exprInp = ReversePolishNotation(exprInp);
+        System.out.println(CalcExp(exprInp));
         }
-    }
 
-    /**
-     * Преобразовать строку в обратную польскую нотацию
-     * @param sIn Входная строка
-     * @return Выходная строка в обратной польской нотации
-     */
-    private static String opn(String sIn) throws Exception {
+
+    //Преобразование входной строки в обратную польскую нотацию
+    // т.е. (1+2)*4+3   преобразуется в   1 2 + 4 × 3 +
+    private static String ReversePolishNotation(String exprInp) {
         StringBuilder sbStack = new StringBuilder(""), sbOut = new StringBuilder("");
-        char cIn, cTmp;
+        char symbolIn, SymbolStack;
 
-        for (int i = 0; i < sIn.length(); i++) {
-            cIn = sIn.charAt(i);
-            if (isOp(cIn)) {
+        for (int i = 0; i < exprInp.length(); i++) {
+            //считываем символ из введенного выражения
+            symbolIn = exprInp.charAt(i);
+            if (TrueOperat(symbolIn)) {
                 while (sbStack.length() > 0) {
-                    cTmp = sbStack.substring(sbStack.length()-1).charAt(0);
-                    if (isOp(cTmp) && (opPrior(cIn) <= opPrior(cTmp))) {
-                        sbOut.append(" ").append(cTmp).append(" ");
+                    //считываем символ из стека для операций
+                    SymbolStack = sbStack.substring(sbStack.length()-1).charAt(0);
+                    //проверка приоритетов
+                    if (TrueOperat(SymbolStack) && (PrioritetOperat(symbolIn) <= PrioritetOperat(SymbolStack))) {
+                        //добавляем символ в конец строки
+                        sbOut.append(" ").append(SymbolStack).append(" ");
                         sbStack.setLength(sbStack.length()-1);
                     } else {
+                        //добавляем символ в конец строки
                         sbOut.append(" ");
                         break;
                     }
                 }
+                //добавляем символ в конец строки
                 sbOut.append(" ");
-                sbStack.append(cIn);
-            } else if ('(' == cIn) {
-                sbStack.append(cIn);
-            } else if (')' == cIn) {
-                cTmp = sbStack.substring(sbStack.length()-1).charAt(0);
-                while ('(' != cTmp) {
-                    if (sbStack.length() < 1) {
-                        throw new Exception("Ошибка разбора скобок. Проверьте правильность выражения.");
-                    }
-                    sbOut.append(" ").append(cTmp);
+                sbStack.append(symbolIn);
+            } else if ('(' == symbolIn) {
+                //добавляем символ в конец строки
+                sbStack.append(symbolIn);
+            } else if (')' == symbolIn) {
+                SymbolStack = sbStack.substring(sbStack.length()-1).charAt(0);
+                while ('(' != SymbolStack) {
+                     //добавляем символ в конец строки
+                    sbOut.append(" ").append(SymbolStack);
                     sbStack.setLength(sbStack.length()-1);
-                    cTmp = sbStack.substring(sbStack.length()-1).charAt(0);
+                    SymbolStack = sbStack.substring(sbStack.length()-1).charAt(0);
                 }
                 sbStack.setLength(sbStack.length()-1);
             } else {
-                // Если символ не оператор - добавляем в выходную последовательность
-                sbOut.append(cIn);
+                // Если символ не является знаком операции, то добавляем его в выходную последовательность
+                sbOut.append(symbolIn);
             }
         }
-
         // Если в стеке остались операторы, добавляем их в входную строку
         while (sbStack.length() > 0) {
             sbOut.append(" ").append(sbStack.substring(sbStack.length()-1));
             sbStack.setLength(sbStack.length()-1);
         }
-
         return  sbOut.toString();
     }
 
-    /**
-     * Функция проверяет, является ли текущий символ оператором
-     */
-    private static boolean isOp(char c) {
-        switch (c) {
+    //Проверка правильности ввода знаков операций
+    private static boolean TrueOperat(char OperInp) {
+        switch (OperInp) {
             case '-':
             case '+':
             case '*':
@@ -90,74 +84,57 @@ public class Calc {
         return false;
     }
 
-    /**
-     * Возвращает приоритет операции
-     * @param op char
-     * @return byte
-     */
-    private static byte opPrior(char op) {
-        switch (op) {
-            case '^':
-                return 3;
-            case '*':
-            case '/':
+    //Вычисление приоритета для каждой операции
+    private static byte PrioritetOperat(char OperInp) {
+        switch (OperInp) {
+            case '^': //возведение в степень
                 return 2;
+            case '*': //умножение
+            case '/': //деление
+                return 1;
         }
-        return 1; // Тут остается + и -
+        return 0; // сложение и вычитание
     }
 
-    /**
-     * Считает выражение, записанное в обратной польской нотации
-     * @param sIn
-     * @return double result
-     */
-    private static double calculate(String sIn) throws Exception {
-        double dA = 0, dB = 0;
-        String sTmp;
+    //Вычисление выражения
+    private static double CalcExp(String exprInp) throws Exception {
+        double FirstSymbol = 0, SecondSymbol = 0;
+        String SymbolStack;
         Deque<Double> stack = new ArrayDeque<Double>();
-        StringTokenizer st = new StringTokenizer(sIn);
+        StringTokenizer st = new StringTokenizer(exprInp);
         while(st.hasMoreTokens()) {
             try {
-                sTmp = st.nextToken().trim();
-                if (1 == sTmp.length() && isOp(sTmp.charAt(0))) {
-                    if (stack.size() < 2) {
-                        throw new Exception("Неверное количество данных в стеке для операции " + sTmp);
-                    }
-                    dB = stack.pop();
-                    dA = stack.pop();
-                    switch (sTmp.charAt(0)) {
+                SymbolStack = st.nextToken().trim();
+                if (1 == SymbolStack.length() && TrueOperat(SymbolStack.charAt(0))) {
+                    SecondSymbol = stack.pop();
+                    FirstSymbol = stack.pop();
+                    switch (SymbolStack.charAt(0)) {
                         case '+':
-                            dA += dB;
+                            FirstSymbol += SecondSymbol;
                             break;
                         case '-':
-                            dA -= dB;
-                            break;
-                        case '/':
-                            dA /= dB;
+                            FirstSymbol -= SecondSymbol;
                             break;
                         case '*':
-                            dA *= dB;
+                            FirstSymbol *= SecondSymbol;
+                            break;
+                        case '/':
+                            FirstSymbol /= SecondSymbol;
                             break;
                         case '^':
-                            dA = Math.pow(dA, dB);
+                            FirstSymbol = Math.pow(FirstSymbol, SecondSymbol);
                             break;
                         default:
-                            throw new Exception("Недопустимая операция " + sTmp);
                     }
-                    stack.push(dA);
+                    stack.push(FirstSymbol);
                 } else {
-                    dA = Double.parseDouble(sTmp);
-                    stack.push(dA);
+                    FirstSymbol = Double.parseDouble(SymbolStack);
+                    stack.push(FirstSymbol);
                 }
             } catch (Exception e) {
-                throw new Exception("Недопустимый символ в выражении");
+                throw new Exception("Используйте только цифры, +, -, *, /, ^ и (). Проверьте правильность введенного выражения!");
             }
         }
-
-        if (stack.size() > 1) {
-            throw new Exception("Количество операторов не соответствует количеству операндов");
-        }
-
         return stack.pop();
     }
 }

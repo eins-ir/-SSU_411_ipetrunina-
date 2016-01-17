@@ -26,16 +26,14 @@ public class Friday1 {
 
 
         //проверка на валидность года
-        if (year < 2020 && year > 1900) {
+        if (year < 2021 && year > 1899) {
             //присвоение года и числа
             calendar.set(Calendar.DAY_OF_MONTH, 1);
             calendar.set(Calendar.YEAR, year);
 
-
             //проход по всем месяцам.
             //поиск, если воскресенье попадает на 1 число.
             for (int i = 0; i < 11; i++) {
-
                 //присвоение месяца
                 calendar.set(Calendar.MONTH, i);
 
@@ -45,8 +43,9 @@ public class Friday1 {
                 }
             }
 
-            System.out.println("In 2001 Friday, 13 was " + kol);
+            System.out.println("In " + year + " Friday, 13 was " + kol);
 
         }
+        else System.out.println("Choose other year! 1900 <= year <= 2020");
     }
 }
