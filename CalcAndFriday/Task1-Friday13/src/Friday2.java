@@ -51,8 +51,7 @@ public class Friday2 {
             calendar.set(Calendar.YEAR, year);
 
             //проход по всем годам.
-            //поиск, если воскресенье попадает на 1 число.
-            while (year <= NowYear) {
+             while (year <= NowYear) {
                 if (calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US) == FindDay) {
                     kol += 1;
                     System.out.println(year);
