@@ -1,0 +1,34 @@
+PetruninaIN@Petrunina MINGW64 ~/GitTask/SSU_411_ipetrunina (master)
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        CalcAndFriday/Task1-Friday13/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+PetruninaIN@Petrunina MINGW64 ~/GitTask/SSU_411_ipetrunina (master)
+$ git add CalcAndFriday/
+
+PetruninaIN@Petrunina MINGW64 ~/GitTask/SSU_411_ipetrunina (master)
+$ git commit -m "Tasks 1 and 2 - Calc and Friday13"
+[master 29db9af] Tasks 1 and 2 - Calc and Friday13
+ 6 files changed, 281 insertions(+)
+ create mode 100644 CalcAndFriday/Task1-Friday13/out/production/Task1-Friday13/Calc.class
+ create mode 100644 CalcAndFriday/Task1-Friday13/out/production/Task1-Friday13/Friday1.class
+ create mode 100644 CalcAndFriday/Task1-Friday13/out/production/Task1-Friday13/Friday2.class
+ create mode 100644 CalcAndFriday/Task1-Friday13/src/Calc.java
+ create mode 100644 CalcAndFriday/Task1-Friday13/src/Friday1.java
+ create mode 100644 CalcAndFriday/Task1-Friday13/src/Friday2.java
+
+PetruninaIN@Petrunina MINGW64 ~/GitTask/SSU_411_ipetrunina (master)
+$ git push origin master
+Counting objects: 14, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (12/12), done.
+Writing objects: 100% (14/14), 7.81 KiB | 0 bytes/s, done.
+Total 14 (delta 3), reused 0 (delta 0)
+To git@github.com:eins-ir/SSU_411_ipetrunina.git
+   59b0036..29db9af  master -> master
