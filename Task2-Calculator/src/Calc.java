@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 
 /**
@@ -9,22 +8,31 @@ import java.util.*;
 
 public class Calc {
     public static void main(String[] args) throws Exception {
-        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         String exprInp;
+        double ans=0;
         System.out.println("Поддерживаются сложение (+), вычитание (-), умножение (*), деление (/), возведение в степень (^), а также скобки () ");
+        Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println("Введите выражение, которое нужно вычислить: ");
-            exprInp = input.readLine();
+            exprInp = scanner.nextLine();
 
-            if(exprInp.equals("Close")) break;
+            if(exprInp.equals("Close")|| exprInp.equals("close")) break;
             else {
                 exprInp = ReversePolishNotation(exprInp);
-                System.out.println(CalcExp(exprInp));
+                if(exprInp.equals("false")) System.out.println();
+                else {
+                    ans = CalcExp(exprInp);
+                    if (ans == 0.0000000177) {
+                        System.out.println("Используйте только цифры, +, -, *, /, ^ и (). Проверьте правильность введенного выражения!");
+                        ans=0;
+                    }
+                    else System.out.println(ans);
+                }
+
             }
         }
     }
-
 
     //Преобразование входной строки в обратную польскую нотацию
     // т.е. (1+2)*4+3   преобразуется в   1 2 + 4 × 3 +
@@ -65,9 +73,13 @@ public class Calc {
                     SymbolStack = sbStack.substring(sbStack.length()-1).charAt(0);
                 }
                 sbStack.setLength(sbStack.length()-1);
-            } else {
+            } else if(TrueChar(symbolIn)) {
                 // Если символ не является знаком операции, то добавляем его в выходную последовательность
                 sbOut.append(symbolIn);
+            }
+            else {
+                System.out.println("Не используйте буквы или символы, кроме +,-,*,^,/,(,)");
+                return "false";
             }
         }
         // Если в стеке остались операторы, добавляем их в входную строку
@@ -76,6 +88,24 @@ public class Calc {
             sbStack.setLength(sbStack.length()-1);
         }
         return  sbOut.toString();
+    }
+
+    //Проверка правильности ввода знаков операций
+    private static boolean TrueChar(char OperInp) {
+        switch (OperInp) {
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '0':
+                return true;
+        }
+        return false;
     }
 
     //Проверка правильности ввода знаков операций
@@ -139,7 +169,7 @@ public class Calc {
                     stack.push(FirstSymbol);
                 }
             } catch (Exception e) {
-                throw new Exception("Используйте только цифры, +, -, *, /, ^ и (). Проверьте правильность введенного выражения!");
+                return 0.0000000177;
             }
         }
         return stack.pop();
