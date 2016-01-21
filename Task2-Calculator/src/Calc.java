@@ -17,7 +17,7 @@ public class Calc {
             System.out.println("Введите выражение, которое нужно вычислить: ");
             exprInp = scanner.nextLine();
 
-            if(exprInp.equals("Close")|| exprInp.equals("close")) break;
+            if(exprInp.equals("Close") || exprInp.equals("close")) break;
             else {
                 exprInp = ReversePolishNotation(exprInp);
                 if(exprInp.equals("false")) System.out.println();
