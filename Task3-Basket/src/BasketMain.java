@@ -40,6 +40,7 @@ public class BasketMain{
                         Set<Map.Entry<String, Integer>> set = hm.entrySet();
                         for (Map.Entry<String, Integer> me : set) {
                                 System.out.print(me.getKey());
+                                System.out.println();
                         }
                         return null;
                 }
@@ -53,15 +54,49 @@ public class BasketMain{
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
-           System.out.println("Enter product:");
-           String product = scanner.nextLine();
-           System.out.println("Enter quantity:");
-           int quantity = Integer.parseInt(scanner.nextLine());
-           basket.addProduct(product, quantity);
-           basket.getProducts();
-           basket.getProductQuantity(product);
+                System.out.println("1 - add product");
+                System.out.println("2 - delete product");
+                System.out.println("3 - update product quantity");
+                System.out.println("4 - delete all");
+                System.out.println("5 - get products list");
+                System.out.println("6 - get product quantity");
+                System.out.println("Enter command:");
+                int command = Integer.parseInt(scanner.nextLine());
 
+                if(command == 1) {
+                        System.out.println("Enter product:");
+                        String product = scanner.nextLine();
+                        System.out.println("Enter quantity:");
+                        int quantity = Integer.parseInt(scanner.nextLine());
+                        basket.addProduct(product, quantity);
                 }
+                else if(command == 2) {
+                        System.out.println("Enter product:");
+                        String product = scanner.nextLine();
+                        basket.removeProduct(product);
+                }
+                else if(command == 3) {
+                        System.out.println("Enter product:");
+                        String product = scanner.nextLine();
+                        System.out.println("Enter quantity:");
+                        int quantity = Integer.parseInt(scanner.nextLine());
+                        basket.updateProductQuantity(product,quantity);
+                }
+                else if(command == 4) {
+                        basket.clear();
+                }
+                else if(command == 5) {
+                        basket.getProducts();
+                }
+                else if(command == 6) {
+                        System.out.println("Enter product:");
+                        String product = scanner.nextLine();
+                        basket.getProductQuantity(product);
+                }
+                else System.out.println("Error command");
+                System.out.println();
+                System.out.println();
+        }
         }
     }
 
