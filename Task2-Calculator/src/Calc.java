@@ -103,6 +103,7 @@ public class Calc {
             case '8':
             case '9':
             case '0':
+            case '.':
                 return true;
         }
         return false;
