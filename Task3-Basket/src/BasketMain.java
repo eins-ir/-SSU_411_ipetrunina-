@@ -6,7 +6,7 @@ import java.util.*;
  * Created by PetruninaIN on 22.01.2016.
  */
 
-//???????? ??? map
+// map
 
 public class BasketMain{
         public static void main(String[] args) {
