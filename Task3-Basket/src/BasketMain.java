@@ -46,23 +46,22 @@ public class BasketMain{
 
                 @Override
                 public int getProductQuantity(String product) {
-                        Set<Map.Entry<String, Integer>> set = hm.entrySet();
-                        for (Map.Entry<String, Integer> me : set) {
-                                System.out.print(me.getKey()+ ": ");
-                                System.out.println(me.getValue());
-                        }
+                        System.out.print(hm.get(product));
                         return 0;
                 }
         };
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter product:");
-        String product = scanner.nextLine();
-        System.out.println("Enter quantity:");
-        int quantity = Integer.parseInt(scanner.nextLine());
-        //basket.addProduct(product,quantity);
-       // basket.getProducts();
+        while (true) {
+           System.out.println("Enter product:");
+           String product = scanner.nextLine();
+           System.out.println("Enter quantity:");
+           int quantity = Integer.parseInt(scanner.nextLine());
+           basket.addProduct(product, quantity);
+           basket.getProducts();
+           basket.getProductQuantity(product);
 
+                }
         }
     }
 
