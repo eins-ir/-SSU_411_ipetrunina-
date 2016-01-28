@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Stack;
 
 /**
  * Created by PetruninaIN on 23.01.2016.
@@ -13,13 +12,12 @@ import java.util.Stack;
 
 public class Solution {
     public static void main(String[] args) throws IOException {
-        Stack StackAll = new Stack();
 
-        String[] name = new String[100];
-        String[] bankBook = new String[100];
-        Integer[] budget = new Integer[100];
-        OrganizationsInfo organizationtmp = new OrganizationsInfo();
-        organizationtmp.readFile(name, bankBook, budget);
+        String[] name = new String[10];
+        String[] bankBook = new String[10];
+        Integer[] budget = new Integer[10];
+        OrganizationsInfo organizations = new OrganizationsInfo();
+        organizations.readFile(name, bankBook, budget);
 
         String[] sender = new String[10];
         String[] bankbookSender = new String[10];
@@ -29,6 +27,21 @@ public class Solution {
 
         Transactions transactions = new Transactions();
         transactions.TransactionsInfo(sender, bankbookSender, receiver, bankbookReceiver, sum);
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (bankBook[j].equals(bankbookSender[i])) {
+                    for (int k = 0; k < 10; k++) {
+                        if (bankbookReceiver[i].equals(bankBook[k])) {
+                            if (sum[i] <= budget[j]) {
+                                budget[j] -= sum[i];
+                                budget[k] += sum[i];
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         WriteCVS writeResult = new WriteCVS();
         writeResult.writeCSV(name, bankBook, budget);

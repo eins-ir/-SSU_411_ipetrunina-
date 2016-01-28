@@ -20,7 +20,7 @@ public class Transactions {
         }
 
         ReadCVS read = new ReadCVS();
-        int k = 0;
+        int k=0;
 
         while (StackAll.empty() == false) {
             BeginDir = (String) StackAll.pop();
