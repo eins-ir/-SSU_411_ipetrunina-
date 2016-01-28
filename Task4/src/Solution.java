@@ -4,12 +4,6 @@ import java.io.*;
  * Created by PetruninaIN on 23.01.2016.
  */
 
-/*
-  1) Копейки подсчитывать не обязательно, достаточно работать с целочисленными данными.
-  2) result.csv должен содержать все предприятия с информацией о их бюджете.
-  Названия у предприятий может совпадать, но различать их в данном случае будет лицевой счет.
-*/
-
 public class Solution {
     public static void main(String[] args) throws IOException {
 
@@ -28,6 +22,9 @@ public class Solution {
         Transactions transactions = new Transactions();
         transactions.TransactionsInfo(sender, bankbookSender, receiver, bankbookReceiver, sum);
 
+        int errTr = 0;
+        boolean errSUM = true;
+
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 10; j++) {
                 if (bankBook[j].equals(bankbookSender[i])) {
@@ -36,6 +33,10 @@ public class Solution {
                             if (sum[i] <= budget[j]) {
                                 budget[j] -= sum[i];
                                 budget[k] += sum[i];
+                                errTr++;
+                            } else {
+                                System.out.println("Error: SUM < BUDGET!");
+                                errSUM = false;
                             }
                         }
                     }
@@ -43,8 +44,11 @@ public class Solution {
             }
         }
 
-        WriteCVS writeResult = new WriteCVS();
-        writeResult.writeCSV(name, bankBook, budget);
+        if (errSUM && errTr == 5) {
+            WriteCVS writeResult = new WriteCVS();
+            writeResult.writeCSV(name, bankBook, budget);
+        } else {
+            System.out.println("ERROR: Invalid transactions");
+        }
     }
 }
-
