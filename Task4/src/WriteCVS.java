@@ -7,13 +7,19 @@ import com.csvreader.CsvWriter;
  */
 
 public class WriteCVS {
-    public static void writeCSV(String[] name, String[] bankbook, Integer[] budget) throws FileNotFoundException {
+    public static void writeCSV(String[] name, String[] bankbook, Integer[] budget, int countOrg) throws FileNotFoundException {
         String outputFile = "C:\\Users\\PetruninaIN\\GitTask\\SSU_411_ipetrunina\\Task4\\Data\\result.csv";
 
         try {
             CsvWriter csvOutput = new CsvWriter(new FileWriter(outputFile, false), ';');
 
-            for (int i = 0; i < 10; i++) {
+            csvOutput.write("Name");
+            csvOutput.write("Business Account");
+            csvOutput.write("Budget");
+            csvOutput.endRecord();
+
+
+            for (int i = 0; i < countOrg; i++) {
                 csvOutput.write(name[i]);
                 csvOutput.write(bankbook[i]);
                 csvOutput.write(budget[i].toString());

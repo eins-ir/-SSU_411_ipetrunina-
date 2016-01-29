@@ -4,6 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ReadCVS {
+    private Integer kol;
+
     public String[][] run(String csvFile, int o) {
         BufferedReader br = null;
         String line = "";
@@ -11,6 +13,7 @@ public class ReadCVS {
         String[][] org = new String[100][3];
         String[][] trans = new String[100][4];
         int i = 0;
+        kol = 0;
 
         try {
             br = new BufferedReader(new FileReader(csvFile));
@@ -20,6 +23,7 @@ public class ReadCVS {
                     String[] orgtmp = line.split(cvsSplitBy);
                     org[i] = orgtmp;
                     i++;
+                    kol++;
                 }
 
                 if (o == 2) {
@@ -47,4 +51,7 @@ public class ReadCVS {
         else return trans;
     }
 
+    public Integer getCount() {
+        return kol;
+    }
 }

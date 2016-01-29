@@ -7,11 +7,16 @@ import java.io.*;
 public class Solution {
     public static void main(String[] args) throws IOException {
 
-        String[] name = new String[10];
-        String[] bankBook = new String[10];
-        Integer[] budget = new Integer[10];
+        String[] name = new String[11];
+        String[] bankBook = new String[11];
+        Integer[] budget = new Integer[11];
         OrganizationsInfo organizations = new OrganizationsInfo();
         organizations.readFile(name, bankBook, budget);
+
+        String filenameO = "C:\\Users\\PetruninaIN\\GitTask\\SSU_411_ipetrunina\\Task4\\Data\\information.csv";
+        ReadCVS read = new ReadCVS();
+        String[][] org = read.run(filenameO, 1);
+        int countOrg = read.getCount() - 1;
 
         String[] sender = new String[10];
         String[] bankbookSender = new String[10];
@@ -21,22 +26,23 @@ public class Solution {
 
         Transactions transactions = new Transactions();
         transactions.TransactionsInfo(sender, bankbookSender, receiver, bankbookReceiver, sum);
+        int countTrans = transactions.GetCountTrans();
 
-        int errTr = 0;
-        boolean errSUM = true;
+        int errorTrans = 0;
+        boolean errorSum = true;
 
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < countTrans; i++) {
+            for (int j = 0; j < countOrg; j++) {
                 if (bankBook[j].equals(bankbookSender[i])) {
-                    for (int k = 0; k < 10; k++) {
+                    for (int k = 0; k < countOrg; k++) {
                         if (bankbookReceiver[i].equals(bankBook[k])) {
                             if (sum[i] <= budget[j]) {
                                 budget[j] -= sum[i];
                                 budget[k] += sum[i];
-                                errTr++;
+                                errorTrans++;
                             } else {
                                 System.out.println("Error: SUM < BUDGET!");
-                                errSUM = false;
+                                errorSum = false;
                             }
                         }
                     }
@@ -44,9 +50,9 @@ public class Solution {
             }
         }
 
-        if (errSUM && errTr == 5) {
+        if (errorSum && errorTrans == countTrans) {
             WriteCVS writeResult = new WriteCVS();
-            writeResult.writeCSV(name, bankBook, budget);
+            writeResult.writeCSV(name, bankBook, budget, countOrg);
         } else {
             System.out.println("ERROR: Invalid transactions");
         }
